@@ -1,0 +1,36 @@
+{
+    "name": "adbros/nette-microsoft-mailer",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Adbros\\MicrosoftMailer\\": "src/"
+        }
+    },
+    "minimum-stability": "stable",
+    "require": {
+        "php": ">=8.1",
+        "microsoft/microsoft-graph": "^2.0",
+        "nette/mail": "^3.0 || ^4.0"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true,
+            "phpstan/extension-installer": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        },
+        "sort-packages": true
+    },
+    "require-dev": {
+        "contributte/qa": "^0.3.1",
+        "phpstan/extension-installer": "^1.4",
+        "phpstan/phpstan": "^1.12",
+        "tracy/tracy": "^2.10"
+    },
+    "scripts": {
+        "cs": "phpcs --standard=ruleset.xml",
+        "cs-fix": "phpcbf --standard=ruleset.xml",
+        "phpstan": "phpstan analyse -c phpstan.neon",
+        "qa": ["@cs", "@phpstan"]
+    }
+}
