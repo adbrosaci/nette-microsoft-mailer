@@ -14,7 +14,7 @@ Just rewrite the default mailer service in your `neon` file.
 
 ```neon
 services:
-	mail.mailer: Adbros\NetteMicrosoftMailer\MicrosoftMailer(
+	mail.mailer: Adbros\MicrosoftMailer\MicrosoftMailer(
 		tenantId: 'tenant_id'
 		clientId: 'client_id'
 		clientSecret: 'client_secret'
