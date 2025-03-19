@@ -165,7 +165,7 @@ class MicrosoftMailer implements Mailer
 
 		return new GraphServiceClient(
 			$tokenRequestContext,
-			[],
+			['https://graph.microsoft.com/.default'],
 		);
 	}
 
