@@ -8,6 +8,7 @@ use Microsoft\Graph\Generated\Models\EmailAddress;
 use Microsoft\Graph\Generated\Models\FileAttachment;
 use Microsoft\Graph\Generated\Models\ItemBody;
 use Microsoft\Graph\Generated\Models\Message as MicrosoftMessage;
+use Microsoft\Graph\Generated\Models\ODataErrors\ODataError;
 use Microsoft\Graph\Generated\Models\Recipient;
 use Microsoft\Graph\Generated\Users\Item\SendMail\SendMailPostRequestBody;
 use Microsoft\Graph\GraphServiceClient;
@@ -83,7 +84,10 @@ class MicrosoftMailer implements Mailer
 				->post($sendMailRequestBody)
 				->wait();
 		} catch (Throwable $e) {
-			throw new SendException($e->getMessage());
+			throw new SendException(
+				$e instanceof ODataError ? $e->getPrimaryErrorMessage() : $e->getMessage(),
+				previous: $e,
+			);
 		}
 	}
 
