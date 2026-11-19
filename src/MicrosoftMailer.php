@@ -35,7 +35,7 @@ class MicrosoftMailer implements Mailer
 
 	public function getGraphServiceClient(): GraphServiceClient
 	{
-		if (!isset($this->getGraphServiceClient)) {
+		if (!isset($this->client)) {
 			$this->client = $this->createGraphServiceClient();
 		}
 
@@ -62,10 +62,9 @@ class MicrosoftMailer implements Mailer
 
 		$sendMailRequestBody = new SendMailPostRequestBody();
 		$sendMailRequestBody->setMessage($message);
-
-		if ($saveToSentItems !== null) {
-			$sendMailRequestBody->setSaveToSentItems($saveToSentItems);
-		}
+		// Graph's default is to save the message to Sent Items, but the SDK presets false in the request body
+		// constructor (and an explicit null would be serialized as "saveToSentItems": null), so send the default
+		$sendMailRequestBody->setSaveToSentItems($saveToSentItems ?? true);
 
 		if ($mail->getReturnPath() !== null) {
 			$sender = $mail->getReturnPath();
@@ -101,6 +100,7 @@ class MicrosoftMailer implements Mailer
 		$recipients = [];
 
 		foreach ($emails as $email => $name) {
+			assert(is_string($email));
 			$from = new EmailAddress();
 			$from->setAddress($email);
 			$from->setName(is_string($name) ? $name : null);
