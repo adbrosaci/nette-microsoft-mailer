@@ -29,6 +29,7 @@ class MicrosoftMailer implements Mailer
 		protected readonly string $clientId,
 		protected readonly string $clientSecret,
 		protected readonly string $defaultSender,
+		protected readonly bool $saveToSentItems = true,
 	)
 	{
 	}
@@ -62,9 +63,9 @@ class MicrosoftMailer implements Mailer
 
 		$sendMailRequestBody = new SendMailPostRequestBody();
 		$sendMailRequestBody->setMessage($message);
-		// Graph's default is to save the message to Sent Items, but the SDK presets false in the request body
-		// constructor (and an explicit null would be serialized as "saveToSentItems": null), so send the default
-		$sendMailRequestBody->setSaveToSentItems($saveToSentItems ?? true);
+		// always sent explicitly: the SDK presets false in the request body constructor (and an explicit null
+		// would be serialized as "saveToSentItems": null), while Graph's own default is true
+		$sendMailRequestBody->setSaveToSentItems($saveToSentItems ?? $this->saveToSentItems);
 
 		if ($mail->getReturnPath() !== null) {
 			$sender = $mail->getReturnPath();
