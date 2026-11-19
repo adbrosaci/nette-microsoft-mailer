@@ -51,8 +51,13 @@ services:
 		clientId: 'client_id'
 		clientSecret: 'client_secret'
 		defaultSender: 'default_sender_email'
+		# optional, default true: save sent messages to the sender's Sent Items folder
+		saveToSentItems: false
 	)
 ```
+
+`saveToSentItems` can also be overridden for a single message: `$mailer->send($message, saveToSentItems: true)`.
+
 ## Usage
 
 Use as standard Nette Mailer.
